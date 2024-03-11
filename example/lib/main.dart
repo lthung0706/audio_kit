@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            var audioFile = await AudioKit.pickMultipleFile();
+            // var audioFile = await AudioKit.pickMultipleFile();
             if (true) {
               // AudioKit.trimAudio(
               //   path: audioFile.path,
@@ -68,7 +68,8 @@ class _MyAppState extends State<MyApp> {
               //   cutRight: 30,
               // );
               // var x = DateTime.now().millisecondsSinceEpoch;
-              AudioKit.mixMultipleAudio(audioList: audioFile, delayList: ["0","10000","12000"]);
+              // AudioKit.mixMultipleAudio(audioList: audioFile, delayList: ["0","10000","12000"]);
+              await AudioKit.getAllAudioFromDevice();
             }
           },
         ),

@@ -1,7 +1,8 @@
 name: audio_kit
-description: "A new Flutter plugin project."
+description: "A FLutter AUDIO KIT (Trim,merge,mix,get all audio) using ffmpeg"
 version: 0.0.1
-homepage:
+homepage: https://github.com/kullhy/audio_kit
+repository: https://github.com/kullhy/audio_kit
 
 environment:
   sdk: '>=3.2.3 <4.0.0'

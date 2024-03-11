@@ -5,6 +5,7 @@ package com.example.audio_kit
 //import com.arthenica.mobileffmpeg.FFmpeg
 
 import android.content.Context
+import android.media.MediaMetadataRetriever
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -16,6 +17,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import com.google.gson.Gson
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
 
 
@@ -260,7 +262,9 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
     val projection = arrayOf(
       MediaStore.Audio.AudioColumns.DATA,
       MediaStore.Audio.AudioColumns.TITLE, MediaStore.Audio.AudioColumns.ALBUM,
-      MediaStore.Audio.ArtistColumns.ARTIST
+      MediaStore.Audio.ArtistColumns.ARTIST,
+      MediaStore.Audio.AudioColumns.DURATION,
+      MediaStore.Audio.AudioColumns.SIZE,
     )
     val c = context.contentResolver.query(
       uri,
@@ -276,13 +280,35 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
         val name = c.getString(1)
         val album = c.getString(2)
         val artist = c.getString(3)
+        val duration = c.getString(4)
+        val size = c.getString(5)
+
         audioModel.setaName(name)
         audioModel.setaAlbum(album)
         audioModel.setaArtist(artist)
         audioModel.setaPath(path)
+        audioModel.setaSize(size)
+        audioModel.setaDuration(duration)
         Log.e("Name :$name", " Album :$album")
         Log.e("Path :$path", " Artist :$artist")
+
+        try {
+
+//
+//          val mediaMetadataRetriever = MediaMetadataRetriever()
+//          mediaMetadataRetriever.setDataSource(path)
+//          val duration = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0
+//          val size = File(path).length()
+
+
+
+
+        }catch (e: Exception) {
+          println("Get Audio\": $e")
+          false
+        }
         tempAudioList.add(audioModel)
+
       }
       c.close()
     }

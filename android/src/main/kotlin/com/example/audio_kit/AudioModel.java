@@ -6,6 +6,9 @@ public class AudioModel {
     String aAlbum;
     String aArtist;
 
+    String aSize;
+    String aDuration;
+
     public String getaPath() {
         return aPath;
     }
@@ -30,4 +33,19 @@ public class AudioModel {
     public void setaArtist(String aArtist) {
         this.aArtist = aArtist;
     }
+
+    public String getaSize() {
+        return aSize;
+    }
+    public void setaSize(String aSize) {
+        this.aSize = aSize;
+    }
+
+    public String getaDuration() {
+        return aDuration;
+    }
+    public void setaDuration(String aDuration) {
+        this.aDuration = aDuration;
+    }
+
 }

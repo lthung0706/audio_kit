@@ -3,8 +3,10 @@ class Audio {
   String? name;
   String? album;
   String? artist;
+   String? size;
+  String? duration;
 
-  Audio({this.path, this.name, this.album, this.artist});
+  Audio({this.path, this.name, this.album, this.artist, this.size,this.duration});
 
   factory Audio.fromJson(Map<String, dynamic> json) {
     return Audio(
@@ -12,6 +14,8 @@ class Audio {
       name: json['aName'],
       album: json['aAlbum'],
       artist: json['aArtist'],
+      size: json['aSize'],
+      duration: json['aDuration'],
     );
   }
 }
