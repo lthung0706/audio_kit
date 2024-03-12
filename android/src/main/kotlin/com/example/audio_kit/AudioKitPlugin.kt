@@ -5,20 +5,19 @@ package com.example.audio_kit
 //import com.arthenica.mobileffmpeg.FFmpeg
 
 import android.content.Context
-import android.media.MediaMetadataRetriever
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import com.arthenica.mobileffmpeg.FFmpeg
+import com.google.gson.Gson
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
-import com.google.gson.Gson
 import java.io.BufferedReader
-import java.io.File
 import java.io.InputStreamReader
+import io.flutter.plugin.common.MethodChannel.Result
+
 
 
 /** AudioKitPlugin */
@@ -292,21 +291,6 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
         Log.e("Name :$name", " Album :$album")
         Log.e("Path :$path", " Artist :$artist")
 
-        try {
-
-//
-//          val mediaMetadataRetriever = MediaMetadataRetriever()
-//          mediaMetadataRetriever.setDataSource(path)
-//          val duration = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong() ?: 0
-//          val size = File(path).length()
-
-
-
-
-        }catch (e: Exception) {
-          println("Get Audio\": $e")
-          false
-        }
         tempAudioList.add(audioModel)
 
       }
