@@ -114,15 +114,26 @@ class MethodChannelAudioKit extends AudioKitPlatform {
     required String delayList,
     String? outputPath,
   }) async {
-    final result = await 
-    
-    methodChannel.invokeMethod<bool>('mixAudio', {
+    final result = await methodChannel.invokeMethod<bool>('mixAudio', {
       'audioList': audioList,
       'delays': delayList,
       'outPath': outputPath,
     });
 
     print("mixAudio: $result");
+
+    return result ?? false;
+  }
+
+  @override
+  Future<bool> customEdit({
+    required String cmd,
+  }) async {
+    var result = await methodChannel.invokeMethod<bool>('customEdit', {
+      'cmd': cmd,
+    });
+
+    print("customEdit: $result");
 
     return result ?? false;
   }

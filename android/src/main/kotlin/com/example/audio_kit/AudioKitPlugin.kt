@@ -57,7 +57,6 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
 
       val isSuccess = fadeAudio(path,fadeIn,outPath)
       result.success(isSuccess)
-
     }
     else if(call.method=="extractAudioFromVideo"){
       val path = call.argument<String>("path") ?: ""
@@ -95,6 +94,13 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
       val  isSuccess = mixAudio(audioLists,delayLists,outPath)
 
 
+    }else if(call.method=="customEdit"){
+      val cmd = call.argument<String>("cmd") ?: ""
+
+      println("custom cmd: ${cmd}")
+
+      val  isSuccess = customEdit(cmd);
+      result.success(isSuccess)
     } else {
       result.notImplemented()
     }
@@ -332,6 +338,26 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
       }
     } catch (e: Exception) {
       println("Error mix Multiple Audio\": $e")
+      false
+    }
+  }
+
+  fun customEdit(cmd: String):Boolean {
+    return try {
+      isExecuting = true
+      val rc = FFmpeg.execute(cmd)
+//      println("text durion"+rc.duration)
+      isExecuting = false
+      println("rc: $rc")
+      if (rc==0) {
+        println("custom edit Audio successful")
+        true
+      } else {
+        println("custom edit Audio Error")
+        false
+      }
+    } catch (e: Exception) {
+      println("custom edit Audio Error\": $e")
       false
     }
   }

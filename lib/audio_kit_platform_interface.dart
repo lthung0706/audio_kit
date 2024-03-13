@@ -76,4 +76,11 @@ abstract class AudioKitPlatform extends PlatformInterface {
   }) async {
     throw UnimplementedError('mix MultipleAudio error');
   }
+
+   Future<bool> customEdit({
+    required String cmd,
+  }) async {
+    throw UnimplementedError('mix MultipleAudio error');
+  }
+
 }

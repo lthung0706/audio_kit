@@ -24,8 +24,10 @@ class AudioKit {
   }
 
   static Future<List<String>> pickMultipleFile() async {
-    FilePickerResult? result = await FilePicker.platform
-        .pickFiles(type: FileType.audio, allowMultiple: true,);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.audio,
+      allowMultiple: true,
+    );
     if (result != null) {
       List<String> files = result.paths.map((path) => path!).toList();
       return files;
@@ -158,9 +160,8 @@ class AudioKit {
     return path ?? "";
   }
 
-
   ///Get all [Audio] from divice
-  static Future<List<Audio>> getAllAudioFromDevice () async {
+  static Future<List<Audio>> getAllAudioFromDevice() async {
     var audioList = await AudioKitPlatform.instance.getAllAudioFromDevice();
     return audioList;
   }
@@ -193,4 +194,20 @@ class AudioKit {
     );
   }
 
+  static Future<bool> customEdit({required String cmd}) async {
+    String? name;
+    var x = DateTime.now().millisecondsSinceEpoch;
+    name = 'audio_mix_$x';
+
+    String dir = "";
+
+    var dowloadPath = await AudioKitPlatform.instance.getDownloadsDirectory();
+    dir = '$dowloadPath/$name.mp3';
+
+    cmd="$cmd $dir";
+
+    return AudioKitPlatform.instance.customEdit(
+      cmd: cmd,
+    );
+  }
 }
