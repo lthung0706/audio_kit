@@ -194,17 +194,23 @@ class AudioKit {
     );
   }
 
-  static Future<bool> customEdit({required String cmd}) async {
-    String? name;
+  static Future<bool> customEdit({
+    required String cmd,
+    String? name,
+  }) async {
+    if (name == null) {
+      var x = DateTime.now().millisecondsSinceEpoch;
+      name = 'audio_mix_$x';
+    }
+
     var x = DateTime.now().millisecondsSinceEpoch;
-    name = 'audio_mix_$x';
 
     String dir = "";
 
     var dowloadPath = await AudioKitPlatform.instance.getDownloadsDirectory();
     dir = '$dowloadPath/$name.mp3';
 
-    cmd="$cmd $dir";
+    cmd = "$cmd $dir";
 
     return AudioKitPlatform.instance.customEdit(
       cmd: cmd,
