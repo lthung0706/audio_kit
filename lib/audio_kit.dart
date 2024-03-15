@@ -194,7 +194,7 @@ class AudioKit {
     );
   }
 
-  static Future<bool> customEdit({
+  static Future<String> customEdit({
     required String cmd,
     String? name,
   }) async {
@@ -203,17 +203,43 @@ class AudioKit {
       name = 'audio_mix_$x';
     }
 
-    var x = DateTime.now().millisecondsSinceEpoch;
-
     String dir = "";
 
     var dowloadPath = await AudioKitPlatform.instance.getDownloadsDirectory();
     dir = '$dowloadPath/$name.mp3';
 
-    cmd = "$cmd $dir";
+    String uniqueFilePath = generateUniqueFileName(dir);
 
-    return AudioKitPlatform.instance.customEdit(
+    print("output path: $uniqueFilePath");
+
+    cmd = "$cmd $uniqueFilePath";
+    var result = await AudioKitPlatform.instance.customEdit(
       cmd: cmd,
     );
+    return result ? dir : '';
+  }
+
+  static String generateUniqueFileName(String filePath) {
+    File file = File(filePath);
+    if (!file.existsSync()) {
+      return filePath;
+    }
+
+    int count = 1;
+    String newName;
+    do {
+      // Tách phần mở rộng và phần không có mở rộng của tên tệp
+      String nameWithoutExtension = filePath.split('.').first;
+      String extension = filePath.split('.').last;
+
+      // Thêm số vào phía sau tên tệp
+      newName = '$nameWithoutExtension($count).$extension';
+      print("newname: $newName");
+
+      count++;
+    } while (File(newName).existsSync()); // Kiểm tra xem tệp có tồn tại không
+    print("newname final: $newName");
+
+    return newName;
   }
 }

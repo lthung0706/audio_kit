@@ -362,6 +362,7 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
     }
   }
 
+
   fun cancelExecution() {
     if(isExecuting){
       isExecuting = false
