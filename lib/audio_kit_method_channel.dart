@@ -1,10 +1,12 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:audio_kit/audio_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 
 import 'audio_kit_platform_interface.dart';
 
@@ -105,6 +107,22 @@ class MethodChannelAudioKit extends AudioKitPlatform {
     final List<dynamic> audioListJson = jsonDecode(resultJson);
     final List<Audio> audioList =
         audioListJson.map((json) => Audio.fromJson(json)).toList();
+    List<Future<void>> futures = [];
+    for (var element in audioList) {
+      Future<void> future = MetadataRetriever.fromFile(
+        File(element.path ?? ""),
+      ).then(
+        (metadata) {
+          element.imageArt = metadata.albumArt;
+        },
+      ).catchError((e) {
+        print("error: $e");
+      });
+      futures.add(future); // Thêm mỗi tác vụ vào danh sách
+    }
+
+    // Chờ cho tất cả các tác vụ hoàn thành
+    await Future.wait(futures);
     return audioList;
   }
 

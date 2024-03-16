@@ -59,18 +59,19 @@ class _MyAppState extends State<MyApp> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            var audioFile = await AudioKit.pickMultipleFile();
-            if (true) {
-              // AudioKit.trimAudio(
-              //   path: audioFile.path,
-              //   name: "neww",
-              //   cutLeft: 0,
-              //   cutRight: 30,
-              // );
-              // var x = DateTime.now().millisecondsSinceEpoch;
-              // AudioKit.mixMultipleAudio(audioList: audioFile, delayList: ["0","10000","12000"]);
-              await AudioKit.customEdit(cmd: "-i ${audioFile[0]} -ss 00:00:10 -to 00:00:30 -af \"afade=t=in:st=0:d=3,afade=t=out:st=27:d=3,volume=0.5\"");
-            }
+            // var audioFile = await AudioKit.pickMultipleFile();
+            // if (true) {
+            //   // AudioKit.trimAudio(
+            //   //   path: audioFile.path,
+            //   //   name: "neww",
+            //   //   cutLeft: 0,
+            //   //   cutRight: 30,
+            //   // );
+            //   // var x = DateTime.now().millisecondsSinceEpoch;
+            //   // AudioKit.mixMultipleAudio(audioList: audioFile, delayList: ["0","10000","12000"]);
+            //   // await AudioKit.customEdit(cmd: "-i ${audioFile[0]} -ss 00:00:10 -to 00:00:30 -af \"afade=t=in:st=0:d=3,afade=t=out:st=27:d=3,volume=0.5\"");
+            // }
+            AudioKit.getAllAudioFromDevice();
           },
         ),
       ),

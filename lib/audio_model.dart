@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class Audio {
   String? path;
   String? name;
@@ -6,6 +8,7 @@ class Audio {
   String? size;
   String? duration;
   int? seconds;
+  Uint8List? imageArt;
 
   Audio(
       {this.path,
@@ -14,7 +17,8 @@ class Audio {
       this.artist,
       this.size,
       this.duration,
-      this.seconds});
+      this.seconds,
+      this.imageArt});
 
   factory Audio.fromJson(Map<String, dynamic> json) {
     int fileSize = int.parse(json['aSize'] ?? '0');
@@ -26,7 +30,7 @@ class Audio {
       artist: json['aArtist'],
       size: formatBytes(fileSize),
       duration: formatDuration(fileDuration),
-      seconds: (int.parse(json['aDuration'])/1000).round(),
+      seconds: (int.parse(json['aDuration'] ?? "0") / 1000).round(),
     );
   }
 
