@@ -5,6 +5,7 @@ class Audio {
   String? artist;
   String? size;
   String? duration;
+  int? seconds;
 
   Audio(
       {this.path,
@@ -12,7 +13,8 @@ class Audio {
       this.album,
       this.artist,
       this.size,
-      this.duration});
+      this.duration,
+      this.seconds});
 
   factory Audio.fromJson(Map<String, dynamic> json) {
     int fileSize = int.parse(json['aSize'] ?? '0');
@@ -24,15 +26,17 @@ class Audio {
       artist: json['aArtist'],
       size: formatBytes(fileSize),
       duration: formatDuration(fileDuration),
+      seconds: (int.parse(json['aDuration'])/1000).round(),
     );
   }
 
   static String formatDuration(int milliseconds) {
     Duration duration = Duration(milliseconds: milliseconds);
-    int minutes = duration.inMinutes;
+    int hour = duration.inHours;
+    int minutes = duration.inMinutes % 60;
     int seconds = (duration.inSeconds % 60)
         .toInt(); // Lấy số giây còn lại sau khi tính phút
-    return '$minutes m $seconds s';
+    return '$hour:$minutes:$seconds';
   }
 
   static String formatBytes(int bytes) {

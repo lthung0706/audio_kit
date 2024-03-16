@@ -212,11 +212,11 @@ class AudioKit {
 
     print("output path: $uniqueFilePath");
 
-    cmd = "$cmd $uniqueFilePath";
+    cmd = "$cmd \"$uniqueFilePath\"";
     var result = await AudioKitPlatform.instance.customEdit(
       cmd: cmd,
     );
-    return result ? dir : '';
+    return result ? uniqueFilePath : '';
   }
 
   static String generateUniqueFileName(String filePath) {
