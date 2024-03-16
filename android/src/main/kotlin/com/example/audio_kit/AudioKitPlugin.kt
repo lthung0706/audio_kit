@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import android.util.Log
 import com.arthenica.mobileffmpeg.FFmpeg
 import com.google.gson.Gson
-import android.media.MediaMetadataRetriever
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -291,14 +290,10 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
 
         audioModel.setaName(name)
         audioModel.setaAlbum(album)
-//        audioModel.setaArtist(artist)
+        audioModel.setaArtist(artist)
         audioModel.setaPath(path)
         audioModel.setaSize(size)
         audioModel.setaDuration(duration)
-        val albumArt = getAlbumArt(context, path)
-        if (albumArt != null) {
-          audioModel.setAlbumArt(albumArt)
-        }
         Log.e("Name :$name", " Album :$album")
         Log.e("Path :$path", " Artist :$artist")
 
@@ -308,22 +303,6 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
       c.close()
     }
     return tempAudioList
-  }
-
-  private fun getAlbumArt(context: Context, audioPath: String): ByteArray? {
-    val retriever = MediaMetadataRetriever()
-    try {
-      retriever.setDataSource(audioPath)
-      val albumArt = retriever.embeddedPicture
-      if (albumArt != null) {
-        return albumArt
-      }
-    } catch (e: Exception) {
-      e.printStackTrace()
-    } finally {
-      retriever.release()
-    }
-    return null
   }
 
   private fun mixAudio(audioPaths: List<String>,delays: List<String>, outPath: String
