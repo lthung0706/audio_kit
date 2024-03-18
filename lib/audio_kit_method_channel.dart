@@ -107,22 +107,29 @@ class MethodChannelAudioKit extends AudioKitPlatform {
     final List<dynamic> audioListJson = jsonDecode(resultJson);
     final List<Audio> audioList =
         audioListJson.map((json) => Audio.fromJson(json)).toList();
-    List<Future<void>> futures = [];
-    for (var element in audioList) {
-      Future<void> future = MetadataRetriever.fromFile(
-        File(element.path ?? ""),
-      ).then(
-        (metadata) {
-          element.imageArt = metadata.albumArt;
-        },
-      ).catchError((e) {
-        print("error: $e");
-      });
-      futures.add(future); // Thêm mỗi tác vụ vào danh sách
-    }
+    var newAudioList = await getAudioData(audioList);
 
     // Chờ cho tất cả các tác vụ hoàn thành
-    await Future.wait(futures);
+    // await Future.wait(futures);
+    return newAudioList;
+  }
+
+  Future getAudioData(List<Audio> audioList) async {
+    for (var element in audioList) {
+      try {
+        MetadataRetriever.fromFile(
+          File(element.path ?? ""),
+        ).then(
+          (metadata) {
+            element.imageArt = metadata.albumArt;
+          },
+        ).catchError((e) {
+          print("error: $e");
+        });
+      } catch (e) {
+        print(e.toString());
+      }
+    }
     return audioList;
   }
 
