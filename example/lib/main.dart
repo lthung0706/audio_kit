@@ -1,7 +1,6 @@
 import 'package:audio_kit/audio_kit.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:flutter/services.dart';
 
 void main() {
@@ -59,19 +58,22 @@ class _MyAppState extends State<MyApp> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            // var audioFile = await AudioKit.pickMultipleFile();
-            // if (true) {
-            //   // AudioKit.trimAudio(
-            //   //   path: audioFile.path,
-            //   //   name: "neww",
-            //   //   cutLeft: 0,
-            //   //   cutRight: 30,
-            //   // );
-            //   // var x = DateTime.now().millisecondsSinceEpoch;
-            //   // AudioKit.mixMultipleAudio(audioList: audioFile, delayList: ["0","10000","12000"]);
-            //   // await AudioKit.customEdit(cmd: "-i ${audioFile[0]} -ss 00:00:10 -to 00:00:30 -af \"afade=t=in:st=0:d=3,afade=t=out:st=27:d=3,volume=0.5\"");
-            // }
-            var x = await AudioKit. getAllAudioFromDevice();
+            var audioFile = await AudioKit.pickMultipleFile();
+            if (true) {
+              //   // AudioKit.trimAudio(
+              //   //   path: audioFile.path,
+              //   //   name: "neww",
+              //   //   cutLeft: 0,
+              //   //   cutRight: 30,
+              //   // );
+              //   // var x = DateTime.now().millisecondsSinceEpoch;
+              //   // AudioKit.mixMultipleAudio(audioList: audioFile, delayList: ["0","10000","12000"]);
+              // await AudioKit.getAudioDataSamples(filePath: audioFile!.path);
+              await AudioKit.customEdit(
+                  cmd:
+                      "-i ${audioFile[0]} -filter_complex \"[0:a]atrim=end=6[a1];[0:a]atrim=start=12[a2];[a1][a2]concat=n=2:v=0:a=1[out]\" -map \"[out]\"");
+            }
+            // var x = await AudioKit. getAllAudioFromDevice();
           },
         ),
       ),

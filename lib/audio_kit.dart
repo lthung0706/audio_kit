@@ -106,7 +106,7 @@ class AudioKit {
       dir = '$outputPath/$name.mp3';
     }
     return AudioKitPlatform.instance.extractAudioFromVideo(
-      path: path,
+      path: "\"$path\"",
       outputPath: dir,
     );
     // try {
