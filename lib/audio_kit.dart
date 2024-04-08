@@ -166,7 +166,7 @@ class AudioKit {
     return audioList;
   }
 
-  static Future<bool> mixMultipleAudio(
+  static Future<String> mixMultipleAudio(
       {required List<String> audioList,
       required List<int> delayList,
       String? outputPath,
@@ -189,25 +189,28 @@ class AudioKit {
     } else {
       dir = '$outputPath/$name.mp3';
     }
+    String uniqueFilePath = generateUniqueFileName(dir);
 
     fadeTimes == null ? fadeTimes = [0, 0, 0, 0, 0, 0] : null;
     durations == null ? durations = [0, 0, 0, 0, 0, 0] : null;
 
     List<int> startFadeOuts = [];
     for (int i = 0; i < audioList.length; i++) {
-      var time = durations[i] + (delayList[i]/1000).round() - fadeTimes[2 * i + 1];
+      var time =
+          durations[i] + (delayList[i] / 1000).round() - fadeTimes[2 * i + 1];
       startFadeOuts.add(time);
     }
     var fadeTimesList = fadeTimes.join(";");
     var startFadeOutsList = startFadeOuts.join(";");
 
-    return AudioKitPlatform.instance.mixMultipleAudio(
+    var result = await AudioKitPlatform.instance.mixMultipleAudio(
         audioList: audioLists,
         delayList: delayLists,
         outputPath: dir,
         fadeTimes: fadeTimesList,
         volumne: volume.toString(),
         startFadeOuts: startFadeOutsList);
+    return result ? uniqueFilePath : '';
   }
 
   static Future<String> customEdit({
