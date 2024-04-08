@@ -138,11 +138,17 @@ class MethodChannelAudioKit extends AudioKitPlatform {
     required String audioList,
     required String delayList,
     String? outputPath,
+    required String fadeTimes,
+    required String volumne,
+    required String startFadeOuts
   }) async {
     final result = await methodChannel.invokeMethod<bool>('mixAudio', {
       'audioList': audioList,
       'delays': delayList,
       'outPath': outputPath,
+      'fadeTimes': fadeTimes,
+      'volume': volumne,
+      'startFadeOuts':startFadeOuts,
     });
 
     print("mixAudio: $result");

@@ -73,14 +73,16 @@ abstract class AudioKitPlatform extends PlatformInterface {
     required String audioList,
     required String delayList,
     String? outputPath,
+    required String fadeTimes,
+    required String volumne,
+    required String startFadeOuts,
   }) async {
     throw UnimplementedError('mix MultipleAudio error');
   }
 
-   Future<bool> customEdit({
+  Future<bool> customEdit({
     required String cmd,
   }) async {
     throw UnimplementedError('mix MultipleAudio error');
   }
-
 }

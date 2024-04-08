@@ -23,9 +23,10 @@ class Audio {
   factory Audio.fromJson(Map<String, dynamic> json) {
     int fileSize = int.parse(json['aSize'] ?? '0');
     int fileDuration = int.parse(json['aDuration'] ?? '0');
+    String filePath = json['aPath']??"";
     return Audio(
-      path: json['aPath'],
-      name: json['aName'],
+      path: filePath,
+      name: filePath.split('/').last,
       album: json['aAlbum'],
       artist: json['aArtist'],
       size: formatBytes(fileSize),

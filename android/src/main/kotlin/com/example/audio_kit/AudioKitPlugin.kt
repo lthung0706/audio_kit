@@ -87,11 +87,18 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
     } else if(call.method == "mixAudio"){
       val audioList = call.argument<String>("audioList") ?: ""
       val delays = call.argument<String>("delays") ?: ""
+      val fadeTime = call.argument<String>("fadeTimes") ?: ""
+      val startFadeOut = call.argument<String>("startFadeOuts") ?: ""
+
+      val volume = call.argument<String>("volume") ?: ""
       val outPath = call.argument<String>("outPath") ?: ""
       val audioLists = audioList.split(";")
       val delayLists = delays.split(";")
+      val startFadeOuts =startFadeOut.split(";")
+      val fadeTimes = fadeTime.split(";")
 
-      val  isSuccess = mixAudio(audioLists,delayLists,outPath)
+      val  isSuccess = mixAudio(audioLists,delayLists,outPath,fadeTimes,startFadeOuts,volume)
+      result.success(isSuccess)
 
 
     }else if(call.method=="customEdit"){
@@ -305,31 +312,46 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
     return tempAudioList
   }
 
-  private fun mixAudio(audioPaths: List<String>,delays: List<String>, outPath: String
-  ):Boolean {
-    println("dalays: $delays")
+  private fun mixAudio(
+    audioPaths: List<String>,
+    delays: List<String>,
+    outPath: String,
+    fadeTimes: List<String>,
+    startFadeOuts: List<String>, // Danh sách thời gian fade in và fade out lần lượt
+    volume: String // Âm lượng tối đa (0.0 - 1.0)
+  ): Boolean {
+    println("delays: $delays")
+    println("fadeTimes: $fadeTimes")
 
-    val inputOptions = audioPaths.mapIndexed { index, path ->
-      "-i $path"
-    }.joinToString(" ")
+    // Tính tổng số lần fade in và fade out
+    val totalFadePairs = audioPaths.size
+
+    val inputOptions = audioPaths.joinToString(" ") { "-i \"$it\"" }
 
     val filterDelayOptions = delays.mapIndexed { index, delay ->
       "[$index:a]adelay=$delay|$delay[a$index];"
     }.joinToString("")
 
-    val filterInputs = delays.indices.joinToString("") { "[a$it]" }
+    // Tạo các bộ lọc fade in và fade out dựa trên danh sách fadeTimes
+    val fadeFilterOptions = (0 until totalFadePairs).joinToString("") { index ->
+      val fadeIn = fadeTimes[index * 2]
+      val fadeOut = fadeTimes[index * 2 + 1]
+      val startFadeOut = startFadeOuts[index]
+      var startFadeIn = delays[index].toInt()/1000;
+      "[a$index]afade=t=in:st=${startFadeIn}:d=$fadeIn,afade=t=out:st=$startFadeOut:d=$fadeOut[a$index];"
+    }
 
-    val command = "$inputOptions -filter_complex \"$filterDelayOptions$filterInputs amix=inputs=${audioPaths.size}:duration=longest:dropout_transition=${audioPaths.size}\" -codec:a libmp3lame -q:a 0 $outPath"
+    val mixInputs = (0 until audioPaths.size).joinToString("") { "[a$it]" }
 
+    val command = "$inputOptions -filter_complex \"$filterDelayOptions$fadeFilterOptions$mixInputs amix=inputs=${audioPaths.size}:duration=longest:dropout_transition=${audioPaths.size},volume=$volume[aout]\" -map [aout] -c:a libmp3lame $outPath"
 
     println("command: $command")
 
     return try {
       isExecuting = true
       val rc = FFmpeg.execute(command)
-//      println("text durion"+rc.duration)
       isExecuting = false
-      if (rc==0) {
+      if (rc == 0) {
         println("Mix Multiple Audio successful")
         true
       } else {
@@ -337,10 +359,12 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
         false
       }
     } catch (e: Exception) {
-      println("Error mix Multiple Audio\": $e")
+      println("Error mix Multiple Audio: $e")
       false
     }
   }
+
+
 
   fun customEdit(cmd: String):Boolean {
     return try {
