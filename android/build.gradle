@@ -54,6 +54,7 @@ android {
         testImplementation 'org.mockito:mockito-core:5.0.0'
         implementation 'com.arthenica:mobile-ffmpeg-audio:4.4'
         implementation 'com.google.code.gson:gson:2.8.8'
+        implementation "androidx.annotation:annotation:1.6.0"
 //        implementation 'com.arthenica:ffmpeg-kit-full:6.0-2'
     }
 

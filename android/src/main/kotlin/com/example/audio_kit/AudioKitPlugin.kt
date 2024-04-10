@@ -80,6 +80,7 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
       val audioList = getAllAudioFromDevice(context)
       val gson = Gson()
       val audioListJson = gson.toJson(audioList)
+      print("audioListJson $audioListJson")
       result.success(audioListJson)
     }
     else if(call.method == "cancelCutAudio"){

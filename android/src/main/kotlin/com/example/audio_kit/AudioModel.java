@@ -1,5 +1,6 @@
 package com.example.audio_kit;
-
+import androidx.annotation.Keep;
+@Keep
 public class AudioModel {
     String aPath;
     String aName;
