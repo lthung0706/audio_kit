@@ -89,14 +89,14 @@ class AudioKit {
     );
   }
 
-  static Future<bool> extractAudioFromVideo({
+  static Future<String> extractAudioFromVideo({
     required String path,
     String? name,
     String? outputPath,
   }) async {
     if (name == null) {
       var x = DateTime.now().millisecondsSinceEpoch;
-      name = 'audio_$x.mp3';
+      name = 'audio_$x';
     }
     String dir = "";
     if (outputPath == null) {
@@ -105,10 +105,15 @@ class AudioKit {
     } else {
       dir = '$outputPath/$name.mp3';
     }
-    return AudioKitPlatform.instance.extractAudioFromVideo(
+    var result = await AudioKitPlatform.instance.extractAudioFromVideo(
       path: "\"$path\"",
       outputPath: dir,
     );
+    if (result) {
+      return dir;
+    } else {
+      return '';
+    }
     // try {
     //   ByteData _video = await rootBundle.load(name);
     //   var path = await AudioKitPlatform.instance.getDownloadsDirectory();
