@@ -216,6 +216,7 @@ class AudioKit {
   static Future<String> customEdit({
     required String cmd,
     String? name,
+    String? outputPath,
   }) async {
     if (name == null) {
       var x = DateTime.now().millisecondsSinceEpoch;
@@ -224,8 +225,12 @@ class AudioKit {
 
     String dir = "";
 
-    var dowloadPath = await AudioKitPlatform.instance.getDownloadsDirectory();
-    dir = '$dowloadPath/$name.mp3';
+    if (outputPath == null) {
+      var dowloadPath = await AudioKitPlatform.instance.getDownloadsDirectory();
+      dir = '$dowloadPath/$name.mp3';
+    } else {
+      dir = outputPath;
+    }
 
     String uniqueFilePath = generateUniqueFileName(dir);
 
