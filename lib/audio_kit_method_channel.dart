@@ -24,6 +24,13 @@ class MethodChannelAudioKit extends AudioKitPlatform {
   }
 
   @override
+  Future<String?> cancelKit() async {
+    final version =
+        await methodChannel.invokeMethod<String>('cancelKit');
+    return version;
+  }
+
+  @override
   Future<bool> trimAudio({
     required String path,
     required String name,
@@ -134,21 +141,20 @@ class MethodChannelAudioKit extends AudioKitPlatform {
   }
 
   @override
-  Future<bool> mixMultipleAudio({
-    required String audioList,
-    required String delayList,
-    String? outputPath,
-    required String fadeTimes,
-    required String volumne,
-    required String startFadeOuts
-  }) async {
+  Future<bool> mixMultipleAudio(
+      {required String audioList,
+      required String delayList,
+      String? outputPath,
+      required String fadeTimes,
+      required String volumne,
+      required String startFadeOuts}) async {
     final result = await methodChannel.invokeMethod<bool>('mixAudio', {
       'audioList': audioList,
       'delays': delayList,
       'outPath': outputPath,
       'fadeTimes': fadeTimes,
       'volume': volumne,
-      'startFadeOuts':startFadeOuts,
+      'startFadeOuts': startFadeOuts,
     });
 
     print("mixAudio: $result");

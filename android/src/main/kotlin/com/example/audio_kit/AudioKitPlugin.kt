@@ -83,7 +83,7 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
       print("audioListJson $audioListJson")
       result.success(audioListJson)
     }
-    else if(call.method == "cancelCutAudio"){
+    else if(call.method == "cancelKit"){
       cancelExecution()
     } else if(call.method == "mixAudio"){
       val audioList = call.argument<String>("audioList") ?: ""

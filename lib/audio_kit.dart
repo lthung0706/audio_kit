@@ -11,6 +11,10 @@ class AudioKit {
     return AudioKitPlatform.instance.getPlatformVersion();
   }
 
+  Future<void> cancelKit() async {
+    AudioKitPlatform.instance.cancelKit();
+  }
+
   ///Return a [File] with type is audio
   static Future<File?> pickFile({bool? pickVideo = false}) async {
     FilePickerResult? result = await FilePicker.platform
