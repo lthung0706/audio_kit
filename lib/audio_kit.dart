@@ -11,7 +11,7 @@ class AudioKit {
     return AudioKitPlatform.instance.getPlatformVersion();
   }
 
-  Future<void> cancelKit() async {
+  static Future<void> cancelKit() async {
     AudioKitPlatform.instance.cancelKit();
   }
 
