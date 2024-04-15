@@ -25,7 +25,7 @@ class MethodChannelAudioKit extends AudioKitPlatform {
 
   @override
   Future<bool?> checkPermission() async {
-    final version = await methodChannel.invokeMethod<bool>('cancelKit');
+    final version = await methodChannel.invokeMethod<bool>('checkPermission');
     return version;
   }
 

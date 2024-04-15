@@ -58,41 +58,42 @@ class _MyAppState extends State<MyApp> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            var audioFile = await AudioKit.pickMultipleFile();
-            if (true) {
-              //   // AudioKit.trimAudio(
-              //   //   path: audioFile.path,
-              //   //   name: "neww",
-              //   //   cutLeft: 0,
-              //   //   cutRight: 30,
-              //   // );
-              //   // var x = DateTime.now().millisecondsSinceEpoch;
-              AudioKit.mixMultipleAudio(audioList: [
-                // "/storage/emulated/0/Download/audio_mix_1712506320152.mp3",
-                "/storage/emulated/0/Music/Recordings/Call Recordings/Mai FUCKBoiz-2204101448.awb",
-                "/storage/emulated/0/Music/Recordings/Standard Recordings/Ghi tiêu chuẩn 2.mp3"
-              ], delayList: [
-                0,
-                5000,
-                10000
-              ], fadeTimes: [
-                5,
-                5,
-                5,
-                5,
-                5,
-                5
-              ], durations: [
-                80,
-                10,
-                16
-              ], volume: 1);
-              // await AudioKit.getAudioDataSamples(filePath: audioFile!.path);
-              // await AudioKit.customEdit(
-              //     cmd:
-              //         "-i ${audioFile[0]} -filter_complex \"[0:a]atrim=end=6[a1];[0:a]atrim=start=12[a2];[a1][a2]concat=n=2:v=0:a=1[out]\" -map \"[out]\"");
-            }
-            // var x = await AudioKit. getAllAudioFromDevice();
+            AudioKit.checkPermission();
+            // var audioFile = await AudioKit.pickMultipleFile();
+            // if (true) {
+            //   //   // AudioKit.trimAudio(
+            //   //   //   path: audioFile.path,
+            //   //   //   name: "neww",
+            //   //   //   cutLeft: 0,
+            //   //   //   cutRight: 30,
+            //   //   // );
+            //   //   // var x = DateTime.now().millisecondsSinceEpoch;
+            //   AudioKit.mixMultipleAudio(audioList: [
+            //     // "/storage/emulated/0/Download/audio_mix_1712506320152.mp3",
+            //     "/storage/emulated/0/Music/Recordings/Call Recordings/Mai FUCKBoiz-2204101448.awb",
+            //     "/storage/emulated/0/Music/Recordings/Standard Recordings/Ghi tiêu chuẩn 2.mp3"
+            //   ], delayList: [
+            //     0,
+            //     5000,
+            //     10000
+            //   ], fadeTimes: [
+            //     5,
+            //     5,
+            //     5,
+            //     5,
+            //     5,
+            //     5
+            //   ], durations: [
+            //     80,
+            //     10,
+            //     16
+            //   ], volume: 1);
+            //   // await AudioKit.getAudioDataSamples(filePath: audioFile!.path);
+            //   // await AudioKit.customEdit(
+            //   //     cmd:
+            //   //         "-i ${audioFile[0]} -filter_complex \"[0:a]atrim=end=6[a1];[0:a]atrim=start=12[a2];[a1][a2]concat=n=2:v=0:a=1[out]\" -map \"[out]\"");
+            // }
+            // // var x = await AudioKit. getAllAudioFromDevice();
           },
         ),
       ),

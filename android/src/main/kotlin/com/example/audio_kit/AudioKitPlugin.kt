@@ -113,6 +113,7 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
       result.success(isSuccess)
     } else if(call.method=="checkPermission"){
       val hasPermission = checkWriteSettingsPermission()
+      println("permission check: $hasPermission")
       result.success(hasPermission)
     } else {
       result.notImplemented()
@@ -120,6 +121,8 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
   }
 
   private fun checkWriteSettingsPermission(): Boolean {
+      println("permission check:")
+
     return context.checkSelfPermission(Manifest.permission.WRITE_SETTINGS) == PackageManager.PERMISSION_GRANTED
   }
   private fun trimAudio(name: String, path: String, cutLefts: Int, cutRights: Int, outPath: String): Boolean {
