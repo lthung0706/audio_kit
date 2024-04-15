@@ -4,7 +4,9 @@ package com.example.audio_kit
 //import com.arthenica.ffmpegkit.ReturnCode
 //import com.arthenica.mobileffmpeg.FFmpeg
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -109,9 +111,16 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
 
       val  isSuccess = customEdit(cmd);
       result.success(isSuccess)
+    } else if(call.method=="checkPermission"){
+      val hasPermission = checkWriteSettingsPermission()
+      result.success(hasPermission)
     } else {
       result.notImplemented()
     }
+  }
+
+  private fun checkWriteSettingsPermission(): Boolean {
+    return context.checkSelfPermission(Manifest.permission.WRITE_SETTINGS) == PackageManager.PERMISSION_GRANTED
   }
   private fun trimAudio(name: String, path: String, cutLefts: Int, cutRights: Int, outPath: String): Boolean {
     val cmd = arrayOf(

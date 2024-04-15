@@ -28,6 +28,10 @@ abstract class AudioKitPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
+  Future<bool?> checkPermission() {
+    throw UnimplementedError('platformVersion() has not been implemented.');
+  }
+
   Future<String?> cancelKit() {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }

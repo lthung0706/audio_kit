@@ -15,6 +15,12 @@ class AudioKit {
     AudioKitPlatform.instance.cancelKit();
   }
 
+  static Future<bool> checkPermission() async {
+    bool permission =
+        await AudioKitPlatform.instance.checkPermission() ?? false;
+    return permission;
+  }
+
   ///Return a [File] with type is audio
   static Future<File?> pickFile({bool? pickVideo = false}) async {
     FilePickerResult? result = await FilePicker.platform
