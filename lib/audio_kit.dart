@@ -62,7 +62,7 @@ class AudioKit {
     String dir = "";
     if (outputPath != null) {
       var dowloadPath = await getApplicationDocumentsDirectory();
-      dir = '$dowloadPath/$name.mp3';
+      dir = '${dowloadPath.path}/$name.mp3';
     } else {
       dir = '$outputPath/$name.mp3';
     }
@@ -88,7 +88,7 @@ class AudioKit {
     String dir = "";
     if (outputPath == null) {
       var dowloadPath = await getApplicationDocumentsDirectory();
-      dir = '$dowloadPath/$name.mp3';
+      dir = '${dowloadPath.path}/$name.mp3';
     } else {
       dir = '$outputPath/$name.mp3';
     }
@@ -154,7 +154,7 @@ class AudioKit {
 
     if (outputPath == null) {
       var dowloadPath = await getApplicationDocumentsDirectory();
-      dir = '$dowloadPath/$name.mp3';
+      dir = '${dowloadPath.path}/$name.mp3';
     } else {
       dir = '$outputPath/$name.mp3';
     }
@@ -201,7 +201,7 @@ class AudioKit {
 
     if (outputPath == null) {
       var dowloadPath = await getApplicationDocumentsDirectory();
-      dir = '$dowloadPath/$name.mp3';
+      dir = '${dowloadPath.path}/$name.mp3';
     } else {
       dir = '$outputPath/$name.mp3';
     }
@@ -243,9 +243,9 @@ class AudioKit {
 
     if (outputPath == null) {
       var dowloadPath = await getApplicationDocumentsDirectory();
-      dir = '$dowloadPath/$name.mp3';
+       dir = '${dowloadPath.path}/$name.mp3';
     } else {
-      dir = "\"$outputPath/$name.mp3\"";
+      dir = "$outputPath/$name.mp3";
     }
 
     String uniqueFilePath = generateUniqueFileName(dir);
