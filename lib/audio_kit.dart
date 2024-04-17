@@ -5,6 +5,7 @@ import 'package:audio_kit/audio_kit_platform_interface.dart';
 import 'package:audio_kit/audio_model.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AudioKit {
   Future<String?> getPlatformVersion() {
@@ -60,7 +61,7 @@ class AudioKit {
     }
     String dir = "";
     if (outputPath != null) {
-      var dowloadPath = await AudioKitPlatform.instance.getDownloadsDirectory();
+      var dowloadPath = await getApplicationDocumentsDirectory();
       dir = '$dowloadPath/$name.mp3';
     } else {
       dir = '$outputPath/$name.mp3';
@@ -86,7 +87,7 @@ class AudioKit {
     }
     String dir = "";
     if (outputPath == null) {
-      var dowloadPath = await AudioKitPlatform.instance.getDownloadsDirectory();
+      var dowloadPath = await getApplicationDocumentsDirectory();
       dir = '$dowloadPath/$name.mp3';
     } else {
       dir = '$outputPath/$name.mp3';
@@ -110,8 +111,8 @@ class AudioKit {
     }
     String dir = "";
     if (outputPath == null) {
-      var dowloadPath = await AudioKitPlatform.instance.getDownloadsDirectory();
-      dir = '$dowloadPath/$name.mp3';
+      var dowloadPath = await getApplicationDocumentsDirectory();
+      dir = '${dowloadPath.path}/$name.mp3';
     } else {
       dir = '$outputPath/$name.mp3';
     }
@@ -126,7 +127,7 @@ class AudioKit {
     }
     // try {
     //   ByteData _video = await rootBundle.load(name);
-    //   var path = await AudioKitPlatform.instance.getDownloadsDirectory();
+    //   var path = await getApplicationDocumentsDirectory();
     //   var sampleVideo = "${path}/sample_video.mp4";
     //   File _avFile = await File(sampleVideo).create();
     //   await _avFile.writeAsBytes(_video.buffer.asUint8List());
@@ -152,7 +153,7 @@ class AudioKit {
     String dir = "";
 
     if (outputPath == null) {
-      var dowloadPath = await AudioKitPlatform.instance.getDownloadsDirectory();
+      var dowloadPath = await getApplicationDocumentsDirectory();
       dir = '$dowloadPath/$name.mp3';
     } else {
       dir = '$outputPath/$name.mp3';
@@ -199,7 +200,7 @@ class AudioKit {
     String dir = "";
 
     if (outputPath == null) {
-      var dowloadPath = await AudioKitPlatform.instance.getDownloadsDirectory();
+      var dowloadPath = await getApplicationDocumentsDirectory();
       dir = '$dowloadPath/$name.mp3';
     } else {
       dir = '$outputPath/$name.mp3';
@@ -235,16 +236,16 @@ class AudioKit {
   }) async {
     if (name == null) {
       var x = DateTime.now().millisecondsSinceEpoch;
-      name = 'audio_mix_$x';
+      name = 'audio_$x';
     }
 
     String dir = "";
 
     if (outputPath == null) {
-      var dowloadPath = await AudioKitPlatform.instance.getDownloadsDirectory();
+      var dowloadPath = await getApplicationDocumentsDirectory();
       dir = '$dowloadPath/$name.mp3';
     } else {
-      dir = outputPath;
+      dir = "\"$outputPath/$name.mp3\"";
     }
 
     String uniqueFilePath = generateUniqueFileName(dir);
