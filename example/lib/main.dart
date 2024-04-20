@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             AudioKit.checkPermission();
-            // var audioFile = await AudioKit.pickMultipleFile();
+            var audioFile = await AudioKit.pickMultipleFile();
             // if (true) {
             //   //   // AudioKit.trimAudio(
             //   //   //   path: audioFile.path,
@@ -89,9 +89,9 @@ class _MyAppState extends State<MyApp> {
             //     16
             //   ], volume: 1);
             //   // await AudioKit.getAudioDataSamples(filePath: audioFile!.path);
-            //   // await AudioKit.customEdit(
-            //   //     cmd:
-            //   //         "-i ${audioFile[0]} -filter_complex \"[0:a]atrim=end=6[a1];[0:a]atrim=start=12[a2];[a1][a2]concat=n=2:v=0:a=1[out]\" -map \"[out]\"");
+              await AudioKit.customEdit(
+                  cmd:
+                      "-i ${audioFile[0]} -filter_complex \"[0:a]atrim=end=6[a1];[0:a]atrim=start=12[a2];[a1][a2]concat=n=2:v=0:a=1[out]\" -map \"[out]\"");
             // }
             // // var x = await AudioKit. getAllAudioFromDevice();
           },

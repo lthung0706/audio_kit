@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import com.arthenica.mobileffmpeg.ExecuteCallback
 import com.arthenica.mobileffmpeg.FFmpeg
 import com.google.gson.Gson
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -100,8 +101,7 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
       val startFadeOuts =startFadeOut.split(";")
       val fadeTimes = fadeTime.split(";")
 
-      val  isSuccess = mixAudio(audioLists,delayLists,outPath,fadeTimes,startFadeOuts,volume)
-      result.success(isSuccess)
+      mixAudio(audioLists,delayLists,outPath,fadeTimes,startFadeOuts,volume,result)
 
 
     }else if(call.method=="customEdit"){
@@ -109,8 +109,8 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
 
       println("custom cmd: ${cmd}")
 
-      val  isSuccess = customEdit(cmd);
-      result.success(isSuccess)
+customEdit(cmd,result);
+//      result.success(isSuccess)
     } else if(call.method=="checkPermission"){
       val hasPermission = checkWriteSettingsPermission()
       println("permission check: $hasPermission")
@@ -332,7 +332,8 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
     fadeTimes: List<String>,
     startFadeOuts: List<String>, // Danh sách thời gian fade in và fade out lần lượt
     volume: String // Âm lượng tối đa (0.0 - 1.0)
-  ): Boolean {
+    ,result: MethodChannel.Result
+  ) {
     println("delays: $delays")
     println("fadeTimes: $fadeTimes")
 
@@ -360,17 +361,19 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
 
     println("command: $command")
 
-    return try {
+   try {
       isExecuting = true
-      val rc = FFmpeg.execute(command)
-      isExecuting = false
-      if (rc == 0) {
-        println("Mix Multiple Audio successful")
-        true
-      } else {
-        println("Error mix Multiple Audio")
-        false
+      val rc = FFmpeg.executeAsync(command){ _, rc ->
+        if (rc == 0) {
+          println("Custom edit audio successful")
+          result.success(true)
+        } else {
+          println("Custom edit audio error")
+          result.success(false)
+        }
       }
+      isExecuting = false
+
     } catch (e: Exception) {
       println("Error mix Multiple Audio: $e")
       false
@@ -379,20 +382,29 @@ class AudioKitPlugin: FlutterPlugin, MethodCallHandler {
 
 
 
-  fun customEdit(cmd: String):Boolean {
-    return try {
+  fun customEdit(cmd: String,result: MethodChannel.Result) {
+     try {
       isExecuting = true
-      val rc = FFmpeg.execute(cmd)
+      val rc = FFmpeg.executeAsync(cmd
+      ) { _, rc ->
+        if (rc == 0) {
+          println("Custom edit audio successful")
+          result.success(true)
+        } else {
+          println("Custom edit audio error")
+          result.success(false)
+        }
+      }
 //      println("text durion"+rc.duration)
       isExecuting = false
       println("rc: $rc")
-      if (rc==0) {
-        println("custom edit Audio successful")
-        true
-      } else {
-        println("custom edit Audio Error")
-        false
-      }
+//      if (rc==0) {
+//        println("custom edit Audio successful")
+//        true
+//      } else {
+//        println("custom edit Audio Error")
+//        false
+//      }
     } catch (e: Exception) {
       println("custom edit Audio Error\": $e")
       false
